@@ -17,6 +17,7 @@
     "elm-webpack-loader": "^4.3.1",
     "file-loader": "^1.1.5",
     "font-awesome": "4",
+    "foreman": "^2.0.0",
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",
     "webpack": "^3.7.1",
