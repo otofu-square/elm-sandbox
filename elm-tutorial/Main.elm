@@ -8,12 +8,12 @@ import Html.Events exposing (onClick)
 
 
 type alias Model =
-    Bool
+    Int
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( False, Cmd.none )
+    ( 0, Cmd.none )
 
 
 
@@ -21,8 +21,8 @@ init =
 
 
 type Msg
-    = Expand
-    | Collapse
+    = Increment Int
+    | Decrement Int
 
 
 
@@ -31,24 +31,21 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    if model then
-        div []
-            [ button [ onClick Collapse ] [ text "Collapse" ]
-            , text "Widget"
-            ]
-    else
-        div []
-            [ button [ onClick Expand ] [ text "Expand" ] ]
+    div []
+        [ button [ onClick (Increment 10) ] [ text "+10" ]
+        , div [] [ text (toString model) ]
+        , button [ onClick (Decrement 10) ] [ text "-10" ]
+        ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Expand ->
-            ( True, Cmd.none )
+        Increment n ->
+            ( model + n, Cmd.none )
 
-        Collapse ->
-            ( False, Cmd.none )
+        Decrement n ->
+            ( model - n, Cmd.none )
 
 
 subscriptions : model -> Sub Msg
