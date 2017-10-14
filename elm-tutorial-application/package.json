@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "license": "MIT",
   "entry": "./src/index.js",
+  "scripts": {
+    "api": "node api.js",
+    "build": "webpack",
+    "client": "webpack-dev-server --port 3000"
+  },
   "dependencies": {
     "json-server": "^0.12.0"
   },
