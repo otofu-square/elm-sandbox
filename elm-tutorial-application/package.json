@@ -1,5 +1,8 @@
 {
   "name": "elm-tutorial-application",
   "version": "0.0.1",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "json-server": "^0.12.0"
+  }
 }
