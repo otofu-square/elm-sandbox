@@ -31,8 +31,8 @@ list players =
                     , th [] [ text "Level" ]
                     , th [] [ text "Actions" ]
                     ]
-                , tbody [] (List.map playerRow players)
                 ]
+            , tbody [] (List.map playerRow players)
             ]
         ]
 
