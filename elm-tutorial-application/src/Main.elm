@@ -9,7 +9,7 @@ import View exposing (..)
 
 init : ( Model, Cmd Msg )
 init =
-    ( "Hello World!!", Cmd.none )
+    ( initialModel, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
