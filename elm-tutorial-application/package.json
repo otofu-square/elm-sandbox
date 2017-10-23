@@ -1,0 +1,27 @@
+{
+  "name": "elm-tutorial-application",
+  "version": "0.0.1",
+  "license": "MIT",
+  "entry": "./src/index.js",
+  "scripts": {
+    "api": "node api.js",
+    "build": "webpack",
+    "client": "webpack-dev-server --port 3000",
+    "start": "nf start"
+  },
+  "dependencies": {
+    "json-server": "^0.12.0"
+  },
+  "devDependencies": {
+    "ace-css": "1.1",
+    "css-loader": "^0.28.7",
+    "elm-webpack-loader": "^4.3.1",
+    "file-loader": "^1.1.5",
+    "font-awesome": "4",
+    "foreman": "^2.0.0",
+    "style-loader": "^0.19.0",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.7.1",
+    "webpack-dev-server": "^2.9.1"
+  }
+}
