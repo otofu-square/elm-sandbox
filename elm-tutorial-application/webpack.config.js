@@ -42,5 +42,11 @@ module.exports = {
   devServer: {
     inline: true,
     stats: { colors: true },
+    proxy: {
+      '/players': {
+        target: 'http://localhost:4000',
+        secure: false,
+      },
+    },
   },
 };
