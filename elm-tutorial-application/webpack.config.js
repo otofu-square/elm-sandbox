@@ -43,7 +43,7 @@ module.exports = {
     inline: true,
     stats: { colors: true },
     proxy: {
-      '/players': {
+      '/player_list': {
         target: 'http://localhost:4000',
         secure: false,
       },

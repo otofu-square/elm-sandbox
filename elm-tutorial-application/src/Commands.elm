@@ -17,7 +17,7 @@ fetchPlayers =
 
 fetchPlayersUrl : String
 fetchPlayersUrl =
-    "http://localhost:3000/players"
+    "http://localhost:3000/player_list"
 
 
 playersDecoder : Decode.Decoder (List Player)
