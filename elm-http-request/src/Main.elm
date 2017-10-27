@@ -5,6 +5,7 @@ import Html.Attributes exposing (type_)
 import Html.Events exposing (..)
 import Http exposing (post)
 import Json.Decode as Decode
+import Post
 
 
 ---- MODEL ----
@@ -16,15 +17,7 @@ type alias Model =
     }
 
 
-type alias Post =
-    { userId : Int
-    , id : Int
-    , title : String
-    , body : String
-    }
-
-
-initialPost : Post
+initialPost : Post.Model
 initialPost =
     { userId = 0
     , id = 0
@@ -43,22 +36,15 @@ init =
 
 
 type Msg
-    = GetPost
-    | LoadPost (Result Http.Error Post)
+    = PostMsg PostMsg
     | Input String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetPost ->
-            ( model, sendRequest model.form )
-
-        LoadPost (Ok post) ->
-            ( { model | post = post }, Cmd.none )
-
-        LoadPost (Err _) ->
-            ( model, Cmd.none )
+        Post.Msg msg ->
+            Post.update msg model
 
         Input string ->
             ( { model | form = string }, Cmd.none )
