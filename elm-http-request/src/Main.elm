@@ -95,27 +95,34 @@ view : Model -> Html Msg
 view model =
     div
         []
-        [ p
-            []
-            [ text <| "userId: " ++ toString model.post.userId ]
-        , p
-            []
-            [ text <| "id: " ++ toString model.post.id ]
-        , p
-            []
-            [ text <| "title: " ++ model.post.title ]
-        , p
-            []
-            [ text <| "body: " ++ model.post.body ]
-        , p
-            []
-            [ text <| "form: " ++ model.form ]
+        [ postView model.post
         , input
             [ type_ "text", onInput Input ]
             []
+        , p
+            []
+            [ text <| "form: " ++ model.form ]
         , button
             [ onClick GetPost ]
             [ text "Get Post" ]
+        ]
+
+
+postView : Post -> Html Msg
+postView post =
+    div []
+        [ p
+            []
+            [ text <| "userId: " ++ toString post.userId ]
+        , p
+            []
+            [ text <| "id: " ++ toString post.id ]
+        , p
+            []
+            [ text <| "title: " ++ post.title ]
+        , p
+            []
+            [ text <| "body: " ++ post.body ]
         ]
 
 
