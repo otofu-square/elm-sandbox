@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (..)
+import Html.Attributes exposing (type_)
 import Html.Events exposing (..)
 import Http exposing (post)
 import Json.Decode as Decode
@@ -10,7 +11,9 @@ import Json.Decode as Decode
 
 
 type alias Model =
-    { post : Post }
+    { post : Post
+    , form : String
+    }
 
 
 type alias Post =
@@ -32,7 +35,7 @@ initialPost =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { post = initialPost }, Cmd.none )
+    ( { post = initialPost, form = "" }, Cmd.none )
 
 
 
@@ -42,26 +45,30 @@ init =
 type Msg
     = GetPost
     | LoadPost (Result Http.Error Post)
+    | Input String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetPost ->
-            ( model, sendRequest 1 )
+            ( model, sendRequest model.form )
 
         LoadPost (Ok post) ->
-            ( { post = post }, Cmd.none )
+            ( { model | post = post }, Cmd.none )
 
         LoadPost (Err _) ->
             ( model, Cmd.none )
 
+        Input string ->
+            ( { model | form = string }, Cmd.none )
 
-getPost : Int -> Http.Request Post
+
+getPost : String -> Http.Request Post
 getPost id =
     let
         url =
-            "https://jsonplaceholder.typicode.com/posts/" ++ toString id
+            "https://jsonplaceholder.typicode.com/posts/" ++ id
     in
     Http.get url decodePost
 
@@ -75,7 +82,7 @@ decodePost =
         (Decode.field "body" Decode.string)
 
 
-sendRequest : Int -> Cmd Msg
+sendRequest : String -> Cmd Msg
 sendRequest id =
     Http.send LoadPost (getPost id)
 
@@ -100,6 +107,12 @@ view model =
         , p
             []
             [ text <| "body: " ++ model.post.body ]
+        , p
+            []
+            [ text <| "form: " ++ model.form ]
+        , input
+            [ type_ "text", onInput Input ]
+            []
         , button
             [ onClick GetPost ]
             [ text "Get Post" ]
