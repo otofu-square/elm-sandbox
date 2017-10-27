@@ -4,7 +4,6 @@ import Html exposing (..)
 import Html.Attributes exposing (type_)
 import Html.Events exposing (..)
 import Http exposing (post)
-import Json.Decode as Decode
 import Post
 
 
@@ -12,7 +11,7 @@ import Post
 
 
 type alias Model =
-    { post : Post
+    { post : Post.Model
     , form : String
     }
 
@@ -36,41 +35,18 @@ init =
 
 
 type Msg
-    = PostMsg PostMsg
+    = PostMsg Post.Msg
     | Input String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Post.Msg msg ->
+        PostMsg msg ->
             Post.update msg model
 
         Input string ->
             ( { model | form = string }, Cmd.none )
-
-
-getPost : String -> Http.Request Post
-getPost id =
-    let
-        url =
-            "https://jsonplaceholder.typicode.com/posts/" ++ id
-    in
-    Http.get url decodePost
-
-
-decodePost : Decode.Decoder Post
-decodePost =
-    Decode.map4 Post
-        (Decode.field "userId" Decode.int)
-        (Decode.field "id" Decode.int)
-        (Decode.field "title" Decode.string)
-        (Decode.field "body" Decode.string)
-
-
-sendRequest : String -> Cmd Msg
-sendRequest id =
-    Http.send LoadPost (getPost id)
 
 
 
@@ -89,7 +65,7 @@ view model =
             []
             [ text <| "form: " ++ model.form ]
         , button
-            [ onClick GetPost ]
+            [ onClick <| Post.GetPost model.form ]
             [ text "Get Post" ]
         ]
 
