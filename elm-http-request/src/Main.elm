@@ -1,19 +1,38 @@
 module Main exposing (..)
 
-import Html exposing (Html, text, div, img)
-import Html.Attributes exposing (src)
+import Html exposing (..)
+import Html.Events exposing (..)
+import Http exposing (post)
+import Json.Decode as Decode
 
 
 ---- MODEL ----
 
 
 type alias Model =
-    {}
+    { post : Post }
+
+
+type alias Post =
+    { userId : Int
+    , id : Int
+    , title : String
+    , body : String
+    }
+
+
+initialPost : Post
+initialPost =
+    { userId = 0
+    , id = 0
+    , title = "null"
+    , body = "null"
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( { post = initialPost }, Cmd.none )
 
 
 
@@ -21,12 +40,44 @@ init =
 
 
 type Msg
-    = NoOp
+    = GetPost
+    | LoadPost (Result Http.Error Post)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        GetPost ->
+            ( model, sendRequest 1 )
+
+        LoadPost (Ok post) ->
+            ( { post = post }, Cmd.none )
+
+        LoadPost (Err _) ->
+            ( model, Cmd.none )
+
+
+getPost : Int -> Http.Request Post
+getPost id =
+    let
+        url =
+            "https://jsonplaceholder.typicode.com/posts/" ++ toString id
+    in
+    Http.get url decodePost
+
+
+decodePost : Decode.Decoder Post
+decodePost =
+    Decode.map4 Post
+        (Decode.field "userId" Decode.int)
+        (Decode.field "id" Decode.int)
+        (Decode.field "title" Decode.string)
+        (Decode.field "body" Decode.string)
+
+
+sendRequest : Int -> Cmd Msg
+sendRequest id =
+    Http.send LoadPost (getPost id)
 
 
 
@@ -35,9 +86,23 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ img [ src "/logo.svg" ] []
-        , div [] [ text "Your Elm App is working!" ]
+    div
+        []
+        [ p
+            []
+            [ text <| "userId: " ++ toString model.post.userId ]
+        , p
+            []
+            [ text <| "id: " ++ toString model.post.id ]
+        , p
+            []
+            [ text <| "title: " ++ model.post.title ]
+        , p
+            []
+            [ text <| "body: " ++ model.post.body ]
+        , button
+            [ onClick GetPost ]
+            [ text "Get Post" ]
         ]
 
 
