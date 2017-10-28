@@ -1,12 +1,21 @@
-body {
-  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
-  font-size: 30px;
-  margin: 0;
-  text-align: center;
-  color: #293c4b;
+.container {
+  margin: 1em auto;
+  max-width: 600px;
 }
 
-img {
-  margin: 20px 0;
-  max-width: 200px;
+blockquote {
+  margin: 1em 0;
+}
+
+.jumbotron {
+  margin: 2em auto;
+  max-width: 400px;
+}
+
+.jumbotron h2 {
+  margin-top: 0;
+}
+
+.jumbotron .help-block {
+  font-size: 14px;
 }
